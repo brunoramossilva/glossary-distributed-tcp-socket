@@ -1,15 +1,15 @@
 import socket
 import threading
 
-# Repositorio compartilhado entre todos os clientes
+# Repositório compartilhado entre todos os clientes
 glossario = {}
 
-# Lock para evitar conflito entre threads ao modificar o glossario
+# Lock para evitar conflito entre threads ao modificar o glossário
 lock = threading.Lock()
 
 
 def processar_comando(comando: str) -> str:
-    # Separa em no maximo 3 partes: operacao, termo e definicao
+    # Separa em no máximo 3 partes: operação, termo e definição
     partes = comando.strip().split(" ", 2)
 
     if not partes or partes[0] == "":
@@ -22,7 +22,7 @@ def processar_comando(comando: str) -> str:
             return "ERRO: Uso -> QUERY <termo>"
         termo = partes[1].strip()
         with lock:
-            return f"OK: {termo} -> {glossario[termo]}" if termo in glossario else f"NAO_ENCONTRADO: '{termo}'"
+            return f"OK: {termo} -> {glossario[termo]}" if termo in glossario else f"NÃO ENCONTRADO: '{termo}'"
 
     elif operacao == "ADD":
         if len(partes) < 3:
@@ -30,7 +30,7 @@ def processar_comando(comando: str) -> str:
         termo, definicao = partes[1].strip(), partes[2].strip()
         with lock:
             if termo in glossario:
-                return f"DUPLICADO: '{termo}' ja existe. Use FIX para atualizar."
+                return f"DUPLICADO: '{termo}' já existe. Use FIX para atualizar."
             glossario[termo] = definicao
             return f"OK: '{termo}' inserido."
 
@@ -40,14 +40,14 @@ def processar_comando(comando: str) -> str:
         termo, nova_definicao = partes[1].strip(), partes[2].strip()
         with lock:
             if termo not in glossario:
-                return f"NAO_ENCONTRADO: '{termo}'. Use ADD para inserir."
+                return f"NÃO ENCONTRADO: '{termo}'. Use ADD para inserir."
             glossario[termo] = nova_definicao
             return f"OK: '{termo}' atualizado."
 
     elif operacao == "LIST":
         with lock:
             if not glossario:
-                return "VAZIO: O glossario esta vazio."
+                return "VAZIO: O glossário esta vazio."
             linhas = [f"  [{i+1}] {k}: {v}" for i, (k, v) in enumerate(glossario.items())]
             return "TERMOS:\n" + "\n".join(linhas)
 
