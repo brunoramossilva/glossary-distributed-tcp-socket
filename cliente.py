@@ -12,7 +12,7 @@ def conectar():
         cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         cliente.connect((HOST, PORTA))
     except ConnectionRefusedError:
-        print(f"Erro: servidor nao encontrado em {HOST}:{PORTA}.")
+        print(f"Erro: servidor não encontrado em {HOST}:{PORTA}.")
         sys.exit(1)
 
     print(f"Conectado em {HOST}:{PORTA}")
@@ -31,7 +31,7 @@ def conectar():
 
             if not entrada:
                 continue
-            # HELP e tratado localmente, sem enviar ao servidor
+            # HELP é tratado localmente, sem enviar ao servidor
             if entrada.upper() == "HELP":
                 print(AJUDA)
                 continue
